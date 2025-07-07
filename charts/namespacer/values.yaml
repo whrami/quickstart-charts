@@ -1,0 +1,7 @@
+namespaces:
+  normal:
+    # - namespace1
+    # - namespace2
+  privileged:
+    # - privilegedNamespace1
+  

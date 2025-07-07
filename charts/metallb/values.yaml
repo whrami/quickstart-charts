@@ -1,0 +1,16 @@
+namespaceOverride: metallb-system
+
+metallb:
+# specify whatever metallb values here:
+#   rbac:
+#     # create specifies whether to install and use RBAC rules.
+#     create: true
+# . . .
+
+ipAddressPool:
+  name: lb-pool
+  autoAssign: true
+
+  # REQUIRED
+  # addresses: 10.0.0.1/28
+

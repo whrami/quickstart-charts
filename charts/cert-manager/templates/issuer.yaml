@@ -1,0 +1,40 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-dns-prod
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: {{ required ".dns01.replyToEmail is required" .Values.dns01.replyToEmail }}
+    # The ACME certificate profile
+    profile: tlsserver
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - dns01:
+          route53:
+            region: {{ .Values.dns01.awsRegion }}
+            accessKeyIDSecretRef:
+              name: {{ .Values.dns01.secretName }}
+              key: AWS_ACCESS_KEY_ID
+            secretAccessKeySecretRef:
+              name: {{ .Values.dns01.secretName }}
+              key: AWS_SECRET_ACCESS_KEY
+            role: {{ required "dns01.awsRole is required" .Values.dns01.awsRole }}
+
+# create this secret on your own in the destination cluster:
+#
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   namespace: cert-manager
+#   name: dns01-creds
+# type: Opaque
+# data:
+#   AWS_ACCESS_KEY_ID: "base64-encoded-access-key-id"
+#   AWS_SECRET_ACCESS_KEY: "base64-encoded-secret-access-key"
+

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ .Values.namespaceOverride }}
+  name: ingress-header-config
+data:
+  proxy-set-headers: |
+    Upgrade: $http_upgrade";
+    Connection: $connection_upgrade";
+    Host: $server_name";
+    X-Real-IP: $remote_addr";
+    X-Forwarded-For: $proxy_add_x_forwarded_for";
+    X-Forwarded-Proto: $scheme";
+    Strict-Transport-Security: "max-age=15552000; includeSubDomains"';

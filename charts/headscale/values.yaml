@@ -1,0 +1,15 @@
+#namespaceOverride: headscale-system
+
+service:
+  # host is the hostname that Headscale should respond to from the internet (required)
+  # host:
+  annotations: []
+    #metallb.universe.tf/address-pool: wan-lb-pool
+
+ingress:
+  annotations: []
+    #cert-manager.io/cluster-issuer: letsencrypt-dns-prod
+  #className: nginx
+
+storageSize: 500Mi
+

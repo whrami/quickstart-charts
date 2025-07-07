@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.namespaceOverride }}
+  name: headscale
+  labels:
+    app: headscale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: headscale
+  template:
+    metadata:
+      labels:
+        app: headscale
+    spec:
+      containers:
+        - name: headscale
+          image: docker.io/headscale/headscale:latest
+      initContainers:
+        - name: headscale-init
+          image: busybox
+          command: ["/bin/sh", "-c"]
+          args: ["cp /config/config.yaml /etc/headscale"]
+          volumeMounts:
+            - name: headscale-pvc
+              mountPath: /etc/headscale
+              subPath: config
+            - name: init-config
+              mountPath: /config
+      containers:
+        - name: headscale
+          image: docker.io/headscale/headscale:latest
+          command: ["headscale", "serve"]
+          volumeMounts:
+            - name: headscale-pvc
+              mountPath: /etc/headscale
+              subPath: config
+            - name: headscale-pvc
+              mountPath: /var/lib/headscale
+              subPath: lib
+            - name: headscale-pvc
+              mountPath: /var/run/headscale
+              subPath: run
+          ports:
+            - containerPort: 8080
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+      volumes:
+        - name: headscale-pvc
+          persistentVolumeClaim:
+            claimName: headscale-pvc
+        - name: init-config
+          configMap:
+            name: headscale-config

@@ -1,0 +1,56 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-pools-job
+  annotations:
+    helm.sh/hook: post-install
+spec:
+  template:
+    spec:
+      serviceAccountName: my-resource-creator-sa
+      containers:
+      - name: resource-creator
+        image: bitnami/kubectl:latest
+        command: ["/bin/sh", "-c"]
+        args: ["sleep 5 && kubectl apply -f /var/resource.yaml"]
+        volumeMounts:
+        - name: resource-file
+          mountPath: /var
+      volumes:
+      - name: resource-file
+        configMap:
+          name: address-pool-resources
+      restartPolicy: Never   # Prevents the Pod from restarting on container failure
+  backoffLimit: 6  # Number of retries before marking the job as failed
+  completions: 1  # Often omitted; ensures one successful completion
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: my-resource-creator-sa
+  namespace: {{ .Values.namespaceOverride }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pool-creator-role
+  namespace: {{ .Values.namespaceOverride }}
+rules:
+- apiGroups: ["metallb.io"]
+  resources: ["ipaddresspools", "l2advertisements"]
+  verbs: ["get", "create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: my-resource-creator-sa-binding
+  namespace: {{ .Values.namespaceOverride }}
+subjects:
+- kind: ServiceAccount
+  name: my-resource-creator-sa
+  namespace: {{ .Values.namespaceOverride }}
+roleRef:
+  kind: Role
+  name: pool-creator-role
+  apiGroup: rbac.authorization.k8s.io
+
