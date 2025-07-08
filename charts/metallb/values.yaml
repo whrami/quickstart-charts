@@ -1,10 +1,10 @@
 namespaceOverride: metallb-system
 
-metallb:
-# specify whatever metallb values here:
-#   rbac:
-#     # create specifies whether to install and use RBAC rules.
-#     create: true
+# specify whatever metallb values you'd like to customize, here:
+metallb: {}
+#  rbac:
+#    # create specifies whether to install and use RBAC rules.
+#    create: true
 # . . .
 
 ipAddressPool:
