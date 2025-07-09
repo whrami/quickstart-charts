@@ -1,5 +1,8 @@
 #namespaceOverride: headscale-system
 
+# required:
+#serverUrl: https://my.cool.server.com:443
+
 service:
   # host is the hostname that Headscale should respond to from the internet (required)
   # host:
