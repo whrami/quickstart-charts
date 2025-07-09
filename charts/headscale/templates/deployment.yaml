@@ -22,7 +22,9 @@ spec:
         - name: headscale-init
           image: busybox
           command: ["/bin/sh", "-c"]
-          args: ["cp /config/* /etc/headscale"]
+          args:
+            - "[[ -f /etc/headscale/acl-policy.json ]] && cp /config/acl-policy.json /etc/headscale"
+            - "[[ -f /etc/headscale/config.yaml ]] && cp /config/config.yaml /etc/headscale"
           volumeMounts:
             - name: headscale-pvc
               mountPath: /etc/headscale

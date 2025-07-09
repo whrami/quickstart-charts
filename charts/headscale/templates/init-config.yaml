@@ -6,11 +6,11 @@ metadata:
 data:
   acl-policy.json: |
     {
-     "acls": [
+      "acls": [
         {
           "action": "accept",
           "src": ["*"],
-          "dst": ["autogroup:internet:*"]
+          "dst": ["*:*"]
         }
       ]
     }
