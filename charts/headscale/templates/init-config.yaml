@@ -4,6 +4,17 @@ metadata:
   namespace: {{ .Values.namespaceOverride }}
   name: headscale-config
 data:
+  acl-policy.json: |
+    {
+     "acls": [
+        {
+          "action": "accept",
+          "src": ["*"],
+          "dst": ["autogroup:internet:*"]
+        }
+      ]
+    }
+
   config.yaml: |
     # headscale will look for a configuration file named `config.yaml` (or `config.json`) in the following order:
     #
@@ -242,7 +253,7 @@ data:
       mode: file
       # If the mode is set to "file", the path to a
       # HuJSON file containing ACL policies.
-      path: ""
+      path: "/etc/headscale/acl-policy.json"
 
     ## DNS
     #
