@@ -27,13 +27,13 @@ data:
     #
     # https://myheadscale.example.com:443
     #
-    server_url: {{ required "serverUrl is required" .Values.serverUrl }}
+    server_url: https://{{ required "service.host is required" .Values.service.host }}:{{ required "service.externalPort is required" .Values.service.externalPort }}
 
     # Address to listen to / bind to on the server
     #
     # For production:
     # listen_addr: 0.0.0.0:8080
-    listen_addr: 0.0.0.0:8080
+    listen_addr: 0.0.0.0:8443
 
     # Address to listen to /metrics and /debug, you may want
     # to keep this endpoint private to your internal network
@@ -235,8 +235,8 @@ data:
     tls_letsencrypt_listen: ":http"
 
     ## Use already defined certificates:
-    tls_cert_path: ""
-    tls_key_path: ""
+    tls_cert_path: /etc/cert/tls.crt
+    tls_key_path: /etc/cert/tls.key
 
     log:
       # Output formatting for logs: text or json

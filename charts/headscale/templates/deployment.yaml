@@ -23,8 +23,8 @@ spec:
           image: busybox
           command: ["/bin/sh", "-c"]
           args:
-            - "[[ -f /etc/headscale/acl-policy.json ]] && cp /config/acl-policy.json /etc/headscale"
-            - "[[ -f /etc/headscale/config.yaml ]] && cp /config/config.yaml /etc/headscale"
+            - "cp /config/config.yaml /etc/headscale;"
+            - "[[ -f /etc/headscale/acl-policy.json ]] || cp /config/acl-policy.json /etc/headscale"
           volumeMounts:
             - name: headscale-pvc
               mountPath: /etc/headscale
@@ -45,8 +45,11 @@ spec:
             - name: headscale-pvc
               mountPath: /var/run/headscale
               subPath: run
+            - name: cert-volume
+              mountPath: /etc/cert
+              readOnly: true
           ports:
-            - containerPort: 8080
+            - containerPort: 8443
           securityContext:
             capabilities:
               drop:
@@ -60,3 +63,6 @@ spec:
         - name: init-config
           configMap:
             name: headscale-config
+        - name: cert-volume
+          secret:
+            secretName: {{ .Values.tls.secretName }}

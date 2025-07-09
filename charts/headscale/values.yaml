@@ -1,18 +1,14 @@
 #namespaceOverride: headscale-system
 
-# required:
-#serverUrl: https://my.cool.server.com:443
-
 service:
+  externalPort: 443
   # host is the hostname that Headscale should respond to from the internet (required)
   # host:
-  annotations: []
+  annotations: {}
     #metallb.universe.tf/address-pool: wan-lb-pool
-
-ingress:
-  annotations: []
-    #cert-manager.io/cluster-issuer: letsencrypt-dns-prod
-  #className: nginx
 
 storageSize: 500Mi
 
+tls:
+  secretName: headscale-tls
+  clusterIssuer: letsencrypt-dns-prod

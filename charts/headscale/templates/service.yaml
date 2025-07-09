@@ -3,16 +3,18 @@ kind: Service
 metadata:
   namespace: {{ .Values.namespaceOverride }}
   name: headscale
-  {{- if .Values.service.annotations }}
+{{ if .Values.service.annotations }}
   annotations:
-    {{ range $key, $val := .Values.service.annotations -}}
+{{- range $key, $val := .Values.service.annotations }}
     {{ $key }}: {{ $val }}
-    {{- end }}
-  {{- end }}
+{{ end -}}
+{{ end -}}
 spec:
+  type: LoadBalancer
   ports:
     - name: websecure
-      port: 8443
-      targetPort: 8080
+      port: {{ .Values.service.externalPort }}
+      targetPort: 8443
   selector:
     app: headscale
+

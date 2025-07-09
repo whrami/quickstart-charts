@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  namespace: {{ .Values.namespaceOverride }}
+  name: {{ .Values.tls.secretName }}
+spec:
+  secretName: {{ .Values.tls.secretName }}
+  issuerRef:
+    name: {{ .Values.tls.clusterIssuer }}
+    kind: ClusterIssuer
+  commonName: {{ .Values.service.host }}
+  dnsNames:
+    - {{ .Values.service.host }}
+
