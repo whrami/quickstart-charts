@@ -7,10 +7,9 @@ metallb: {}
 #    create: true
 # . . .
 
-ipAddressPool:
-  name: lb-pool
-  autoAssign: true
-
-  # REQUIRED
-  # addresses: 10.0.0.1/28
+ipAddressPools:
+  - name: lb-pool
+    autoAssign: true
+    # REQUIRED
+    # addresses: 10.0.0.1/28
 

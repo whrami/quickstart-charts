@@ -4,18 +4,20 @@ metadata:
   name: address-pool-resources
 data:
   resource.yaml: |
+    {{ range $item := .Values.ipAddressPools }}
     apiVersion: metallb.io/v1beta1
     kind: IPAddressPool
     metadata:
-      name: {{ .Values.ipAddressPool.name }}
-      namespace: {{ .Values.namespaceOverride }}
+      name: {{ $item.name }}
+      namespace: {{ $.Values.namespaceOverride }}
       annotations:
         helm.sh/hook: post-install
     spec:
       addresses:
-        - {{ required "ipAddressPool.addresses is required" .Values.ipAddressPool.addresses }}
-      autoAssign: {{ .Values.ipAddressPool.autoAssign }}
+        - {{ required "ipAddressPools.addresses is required" $item.addresses }}
+      autoAssign: {{ $item.autoAssign }}
     ---
+    {{ end -}}
     apiVersion: metallb.io/v1beta1
     kind: L2Advertisement
     metadata:
@@ -25,4 +27,6 @@ data:
         helm.sh/hook: post-install
     spec:
       ipAddressPools:
-        - {{ .Values.ipAddressPool.name }}
+        {{- range .Values.ipAddressPools }}
+        - {{ .name }}
+        {{ end -}}
