@@ -23,8 +23,11 @@ spec:
           image: busybox
           command: ["/bin/sh", "-c"]
           args:
-            - "cp /config/config.yaml /etc/headscale;"
-            - "if [ ! -f /etc/headscale/acl-policy.json ]; then cp /config/acl-policy.json /etc/headscale; fi"
+            - |
+              cp /config/config.yaml /etc/headscale
+              if [ ! -f /etc/headscale/acl-policy.json ]; then
+                cp /config/acl-policy.json /etc/headscale
+              fi
           volumeMounts:
             - name: headscale-pvc
               mountPath: /etc/headscale
