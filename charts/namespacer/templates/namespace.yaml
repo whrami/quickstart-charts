@@ -1,19 +1,18 @@
-{{- range .Values.namespaces.normal }}
+{{- range .Values.namespaces }}
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{ . }}
-{{- end }}
-
-{{- range .Values.namespaces.privileged }}
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: {{ . }}
+  name: {{ .name }}
+  {{- if .mesh }}
+  annotations:
+    linkerd.io/inject: enabled
+  {{ end -}}
+  {{- if .privileged }}
   labels:
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/audit: privileged
     pod-security.kubernetes.io/warn: privileged
+  {{ end -}}
 {{- end }}
+

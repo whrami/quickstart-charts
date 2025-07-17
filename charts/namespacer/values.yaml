@@ -1,7 +1,7 @@
-namespaces:
-  normal:
-    # - namespace1
-    # - namespace2
-  privileged:
-    # - privilegedNamespace1
-  
+namespaces: []
+  #- name: namespace1
+  #  mesh: true
+  #  privileged: true
+  #- name: vanillaNamespace2
+  #- name: someThirdNamespace
+  #  ...  
