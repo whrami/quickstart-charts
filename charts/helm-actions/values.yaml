@@ -47,6 +47,10 @@ statefulset:
   affinity: {}
   extraVolumes: []
 
+  # REQUIRED
+  certPathDockerd: "/certs"
+  certPathDocker: "/certs/client"
+
   actRunner:
     repository: gitea/act_runner
     tag: 0.2.11
