@@ -1,0 +1,29 @@
+namespaces:
+  - name: cert-manager
+  - name: ingress-nginx
+  - name: ingress-nginx-local
+  - name: harbor-system
+  - name: mongodb
+  - name: mongodb-operator
+  - name: external-dns
+  - name: postgres-operator
+  - name: postgres
+  - name: redis
+  - name: minio-operator
+  - name: miniotenant-buf
+    mesh: true
+  - name: linkerd
+    privileged: true
+  - name: dyndns
+    privileged: true
+  - name: gitea-system
+    privileged: true
+  - name: longhorn-system
+    privileged: true
+  - name: metallb-system
+    privileged: true
+  - name: unifios
+    privileged: true
+  - name: headscale-system
+    privileged: true
+

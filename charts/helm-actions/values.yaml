@@ -47,11 +47,9 @@ statefulset:
   affinity: {}
   extraVolumes: []
 
-  # REQUIRED
-  certPathDockerd: "/certs"
-  certPathDocker: "/certs/client"
 
   actRunner:
+    certPath: "/certs"
     repository: gitea/act_runner
     tag: 0.2.11
     pullPolicy: IfNotPresent
@@ -65,6 +63,7 @@ statefulset:
         enabled: false
 
   dind:
+    certPath: "/certs/client"
     repository: docker
     tag: 25.0.2-dind
     pullPolicy: IfNotPresent

@@ -50,7 +50,7 @@ spec:
             - name: DOCKER_TLS_VERIFY
               value: "1"
             - name: DOCKER_CERT_PATH
-              value: {{ .Values.statefulset.actRunner.certPathDockerd }}
+              value: {{ .Values.statefulset.actRunner.certPath }}
             - name: GITEA_RUNNER_REGISTRATION_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -80,7 +80,7 @@ spec:
             - name: DOCKER_TLS_VERIFY
               value: "1"
             - name: DOCKER_CERT_PATH
-              value: {{ .Values.statefulset.dind.certPathDocker }}
+              value: {{ .Values.statefulset.dind.certPath }}
             {{- if .Values.statefulset.dind.extraEnvs }}
             {{- toYaml .Values.statefulset.dind.extraEnvs | nindent 12 }}
             {{- end }}
